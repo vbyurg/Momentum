@@ -16,13 +16,13 @@ function showGreeting() {
     }
 }
 
-// Set to the localStorage
+// Set to localStorage
 function setLocalStorage() {
     localStorage.setItem('name', name.value);
 }
 window.addEventListener('beforeunload', setLocalStorage);
 
-// Get from the localStorage
+// Get from localStorage
 function getLocalStorage() {
     if (localStorage.getItem('name')) {
         name.value = localStorage.getItem('name');
