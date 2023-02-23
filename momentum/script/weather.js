@@ -6,23 +6,13 @@ const weatherDescription = document.querySelector('.weather-description'); // о
 const windBlock = document.querySelector('.wind'); // скорость ветра
 const humidityBlock = document.querySelector('.humidity'); // влажность воздуха
 
-cityInput.addEventListener('change', cityChoice)
+cityInput.addEventListener('change', cityChoice);
 // Choice city
 function cityChoice() {
     city = cityInput.value;
-
     if (city) {
         getWeather(city);
-    } else {
-        weatherError.textContent = 'Введите название города';
-        weatherIcon.className = 'weather-icon owf';
-        temperature.textContent = ``;
-        humidityBlock.textContent = ``;
-        windBlock.textContent = ``;
-        weatherDescription.textContent = '';
-    }
-    weatherError.textContent = 'Введите название города';
-
+    };
 }
 // Get weather info from API
 async function getWeather() {
@@ -31,26 +21,38 @@ async function getWeather() {
     const res = await fetch(url);
     const data = await res.json();
 
-    // Add weather icon
-    weatherIcon.className = 'weather-icon owf';
-    weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+    // Err
+    if (res.status > 400 && res.status < 600) {
+        weatherError.textContent = `Ошибка! Город "${city}" не найден`;
+        weatherIcon.className = 'weather-icon owf';
+        temperature.textContent = ``;
+        humidityBlock.textContent = ``;
+        windBlock.textContent = ``;
+        weatherDescription.textContent = '';
+    } else {
+        // Clean error text
+        weatherError.textContent = ``;
+        // Add weather icon
+        weatherIcon.className = 'weather-icon owf';
+        weatherIcon.classList.add(`owf-${data.weather[0].id}`);
 
-    // Show temperature info
-    temp = Math.round(data.main.temp);
-    temperature.textContent = `${temp} °C`;
+        // Show temperature info
+        temp = Math.round(data.main.temp);
+        temperature.textContent = `${temp} °C`;
 
-    // Show humidity info
-    humidity = Math.round(data.main.humidity);
-    humidityBlock.textContent = `Влажность ${humidity} %`;
+        // Show humidity info
+        humidity = Math.round(data.main.humidity);
+        humidityBlock.textContent = `Влажность ${humidity} %`;
 
-    // Show wind info
-    wind = Math.round(data.wind.speed);
-    windBlock.textContent = `Ветер ${wind} м/с`;
+        // Show wind info
+        wind = Math.round(data.wind.speed);
+        windBlock.textContent = `Ветер ${wind} м/с`;
 
-    // Show weather description
-    weatherDescription.textContent = data.weather[0].description;
-
+        // Show weather description
+        weatherDescription.textContent = data.weather[0].description;
+    }
 }
+
 getWeather()
 
 // Set city value to localStorage
