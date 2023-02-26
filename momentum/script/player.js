@@ -28,10 +28,39 @@ play.addEventListener('click', () => {
     // Check if song is playing
     if (isPlay) {
         pauseSong();
-
     } else {
         playSong();
     }
+});
+// Add playlist to DOM
+trackList.forEach((track, index) => {
+    const li = document.createElement('li');
+    li.innerHTML = `${track.title} / ${track.duration}`;
+    li.dataset.index = index
+    li.classList.add('play-item');
+    playList.appendChild(li);
+});
+
+const tracksList = document.querySelectorAll('.play-list li');
+
+// Play songs from playlist
+tracksList.forEach(track => {
+    track.addEventListener('click', function () {
+        const currentIndex = this.dataset.index;
+        // Playing the current song
+        if (isPlay) {
+            audio.pause();
+            play.classList.remove('pause');
+        } else {
+            audio.src = trackList[currentIndex].src;
+            audio.currentTime = 0;
+            audio.play();
+            play.classList.add('pause');
+
+            tracksList.forEach(track => track.classList.remove('item-active'));
+            this.classList.add('item-active');
+        }
+    });
 });
 
 // Play Next Song
@@ -65,44 +94,14 @@ function playPrev() {
 //  Playback in a circle
 function circlePlay() {
     if (audio.ended) {
-        // isPlay = false;
         currentlyPlaying++
         playNext();
     }
 }
 
-// Add playlist to DOM
-trackList.forEach((track, index) => {
-    const li = document.createElement('li');
-    li.innerHTML = `${track.title} / ${track.duration}`;
-    li.dataset.index = index
-    li.classList.add('play-item');
-    playList.appendChild(li);
-});
 
 
-// Play songs from playlist
-const tracksList = document.querySelectorAll('.play-list li');
 
-tracksList.forEach(track => {
-    track.addEventListener('click', function () {
-        const currentIndex = this.dataset.index;
-        // Playing the current song
-        if (isPlay) {
-            audio.pause();
-            play.classList.remove('pause');
-
-        } else {
-            audio.src = trackList[currentIndex].src;
-            audio.currentTime = 0;
-            audio.play();
-            play.classList.add('pause');
-            
-            tracksList.forEach(track => track.classList.remove('item-active'));
-            this.classList.add('item-active');
-        }
-    });
-});
 
 nextPlay.addEventListener('click', playNext);
 prevPlay.addEventListener('click', playPrev);

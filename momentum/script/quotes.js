@@ -2,9 +2,9 @@
 const quote = document.querySelector('.quote');
 const author = document.querySelector('.author');
 const changeQuote = document.querySelector('.change-quote');
+const quotes = 'quoteRU.json';
 
 async function getQuotes() {
-    const quotes = 'quoteRU.json';
     const res = await fetch(quotes);
     const data = await res.json();
 

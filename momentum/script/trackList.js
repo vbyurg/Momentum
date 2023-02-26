@@ -40,11 +40,6 @@ const trackList = [{
         duration: '01:22'
     },
     {
-        title: 'Painkiller',
-        src: '../assets/sounds/Judas_Priest_-_Painkiller_47956347.mp3',
-        duration: '01:20'
-    },
-    {
         title: 'Creeping death',
         src: '../assets/sounds/Metallica_-_Creeping_Death_47955425.mp3',
         duration: '01:23'
